@@ -33,8 +33,7 @@ jobs:
           make update-crds && git diff --name-only --exit-code deployments/common/crds*
       - name: Build Binary
         run: >
-          make binary
-          BUILD_IN_CONTAINER=0
+          make build
           VERSION=${{ env.VERSION }}
           IC_VERSION=${{ env.VERSION }}-${{ steps.commit.outputs.sha }}
           GIT_COMMIT=${{ steps.commit.outputs.sha }}
