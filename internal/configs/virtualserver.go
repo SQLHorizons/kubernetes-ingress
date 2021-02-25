@@ -1404,9 +1404,9 @@ func generateTime(strs ...string) string {
 	return ""
 }
 
-func generateSnippets(enableSnippets bool, snippet string, defaultS []string) []string {
+func generateSnippets(enableSnippets bool, snippet string, defaultSnippets []string) []string {
 	if !enableSnippets || snippet == "" {
-		return defaultS
+		return defaultSnippets
 	}
 	return strings.Split(snippet, "\n")
 }

@@ -1087,23 +1087,21 @@ func (cnf *Configurator) UpdateConfig(cfgParams *ConfigParams, ingExes []*Ingres
 // As a result of the changes, the configuration for TransportServers is updated and some TransportServers
 // might be removed from NGINX.
 func (cnf *Configurator) UpdateGlobalConfiguration(globalConfiguration *conf_v1alpha1.GlobalConfiguration,
-	transportServerExes []*TransportServerEx) (updatedTransportServerExes []*TransportServerEx, deletedTransportServerExes []*TransportServerEx, err error) {
+	transportServerExes []*TransportServerEx) ([]*TransportServerEx, []*TransportServerEx, error) {
 	cnf.globalCfgParams = ParseGlobalConfiguration(globalConfiguration, cnf.staticCfgParams.TLSPassthrough)
+
+	updatedTransportServerExes := []*TransportServerEx{}
+	deletedTransportServerExes := []*TransportServerEx{}
 
 	for _, tsEx := range transportServerExes {
 		if cnf.CheckIfListenerExists(&tsEx.TransportServer.Spec.Listener) {
 			updatedTransportServerExes = append(updatedTransportServerExes, tsEx)
-
 			err := cnf.addOrUpdateTransportServer(tsEx)
 			if err != nil {
 				return updatedTransportServerExes, deletedTransportServerExes, fmt.Errorf("Error when updating global configuration: %v", err)
 			}
-
 		} else {
 			deletedTransportServerExes = append(deletedTransportServerExes, tsEx)
-			if err != nil {
-				return updatedTransportServerExes, deletedTransportServerExes, fmt.Errorf("Error when updating global configuration: %v", err)
-			}
 		}
 	}
 
