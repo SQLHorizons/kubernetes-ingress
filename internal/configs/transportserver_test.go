@@ -83,7 +83,7 @@ func TestGenerateTransportServerConfigForTCPSnippets(t *testing.T) {
 				Action: &conf_v1alpha1.Action{
 					Pass: "tcp-app",
 				},
-				Snippets: "limit_req zone=mylimit burst=20;\nproxy_cache_path /tmp keys_zone=one:10m;",
+				Snippets: "deny  192.168.1.1;\nallow 192.168.1.0/24;",
 			},
 		},
 		Endpoints: map[string][]string{
@@ -126,7 +126,7 @@ func TestGenerateTransportServerConfigForTCPSnippets(t *testing.T) {
 			ProxyNextUpstreamTries:   0,
 			ProxyNextUpstreamTimeout: "0s",
 			ProxyTimeout:             "10m",
-			Snippets:                 []string{"limit_req zone=mylimit burst=20;", "proxy_cache_path /tmp keys_zone=one:10m;"},
+			Snippets:                 []string{"deny  192.168.1.1;", "allow 192.168.1.0/24;"},
 		},
 	}
 	tsc := &transportServerConfigurator{
@@ -161,7 +161,7 @@ func TestGenerateTransportServerConfigForTCPSnippetsNotEnabled(t *testing.T) {
 				Action: &conf_v1alpha1.Action{
 					Pass: "tcp-app",
 				},
-				Snippets: "limit_req zone=mylimit burst=20;\nproxy_cache_path /tmp keys_zone=one:10m;",
+				Snippets: "deny  192.168.1.1;\nallow 192.168.1.0/24;",
 			},
 		},
 		Endpoints: map[string][]string{

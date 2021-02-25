@@ -316,7 +316,8 @@ metadata:
 spec:
   host: cafe.example.com
   snippets: |
-    limit_req zone=mylimit burst=20;
+    deny  192.168.1.1;
+    allow 192.168.1.0/24;
   upstreams:
   - name: tea
     service: tea-svc

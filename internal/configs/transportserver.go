@@ -3,7 +3,6 @@ package configs
 import (
 	"fmt"
 
-	"github.com/golang/glog"
 	"github.com/nginxinc/kubernetes-ingress/internal/configs/version2"
 	conf_v1alpha1 "github.com/nginxinc/kubernetes-ingress/pkg/apis/configuration/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -83,9 +82,7 @@ func generateTransportServerConfig(transportServerEx *TransportServerEx, listene
 	serverSnippets := generateSnippets(tsc.enableSnippets, transportServerEx.TransportServer.Spec.Snippets, []string{})
 	if !tsc.enableSnippets && (transportServerEx.TransportServer.Spec.Snippets != "") {
 		tsc.warnings.AddWarning(transportServerEx.TransportServer, "snippet specified but snippets feature is not enabled")
-		glog.Errorf("Error was Thrown")
 	}
-	glog.Errorf("Server Snippets : %v", serverSnippets)
 
 	statusZone := transportServerEx.TransportServer.Spec.Listener.Name
 	if transportServerEx.TransportServer.Spec.Listener.Name == conf_v1alpha1.TLSPassthroughListenerName {
