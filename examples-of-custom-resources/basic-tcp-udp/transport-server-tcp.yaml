@@ -3,6 +3,9 @@ kind: TransportServer
 metadata:
   name: dns-tcp
 spec:
+  snippets: | 
+    limit_req zone=mylimit burst=20;
+    proxy_cache_path /tmp keys_zone=one:10m;
   listener:
     name: dns-tcp 
     protocol: TCP

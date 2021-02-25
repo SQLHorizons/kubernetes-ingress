@@ -115,7 +115,7 @@ func TestGenerateTransportServerConfigForTCPSnippets(t *testing.T) {
 			},
 		},
 		Server: version2.StreamServer{
-			Port:                     2020,
+			Port:                     listenerPort,
 			UDP:                      false,
 			StatusZone:               "tcp-listener",
 			ProxyPass:                "ts_default_tcp-server_tcp-app",
