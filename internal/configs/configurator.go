@@ -551,7 +551,9 @@ func (cnf *Configurator) addOrUpdateTransportServer(transportServerEx *Transport
 	name := getFileNameForTransportServer(transportServerEx.TransportServer)
 
 	listener := cnf.globalCfgParams.Listeners[transportServerEx.TransportServer.Spec.Listener.Name]
-	tsCfg := generateTransportServerConfig(transportServerEx, listener.Port, cnf.isPlus)
+	tsc := newTransportServerConfigurator(cnf.cfgParams, cnf.isPlus, cnf.staticCfgParams)
+
+	tsCfg := generateTransportServerConfig(transportServerEx, listener.Port, tsc)
 
 	content, err := cnf.templateExecutorV2.ExecuteTransportServerTemplate(&tsCfg)
 	if err != nil {

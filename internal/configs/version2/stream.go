@@ -37,6 +37,7 @@ type StreamServer struct {
 	ProxyNextUpstream        bool
 	ProxyNextUpstreamTimeout string
 	ProxyNextUpstreamTries   int
+	Snippets                 []string
 }
 
 // TLSPassthroughHostsConfig defines a mapping between TLS Passthrough hosts and the corresponding unix sockets.

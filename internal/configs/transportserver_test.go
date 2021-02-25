@@ -134,11 +134,14 @@ func TestGenerateTransportServerConfigForTCP(t *testing.T) {
 			ProxyNextUpstreamTries:   0,
 			ProxyNextUpstreamTimeout: "0s",
 			ProxyTimeout:             "50s",
+			Snippets:                 []string{},
 		},
 	}
-
-	isPlus := true
-	result := generateTransportServerConfig(&transportServerEx, listenerPort, isPlus)
+	tsc := &transportServerConfigurator{
+		isPlus:         true,
+		enableSnippets: false,
+	}
+	result := generateTransportServerConfig(&transportServerEx, listenerPort, tsc)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("generateTransportServerConfig() returned \n%+v but expected \n%+v", result, expected)
 	}
@@ -217,11 +220,14 @@ func TestGenerateTransportServerConfigForTLSPasstrhough(t *testing.T) {
 			ProxyNextUpstreamTimeout: "0s",
 			ProxyNextUpstreamTries:   0,
 			ProxyTimeout:             "10m",
+			Snippets:                 []string{},
 		},
 	}
-
-	isPlus := true
-	result := generateTransportServerConfig(&transportServerEx, listenerPort, isPlus)
+	tsc := &transportServerConfigurator{
+		isPlus:         true,
+		enableSnippets: false,
+	}
+	result := generateTransportServerConfig(&transportServerEx, listenerPort, tsc)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("generateTransportServerConfig() returned \n%+v but expected \n%+v", result, expected)
 	}
@@ -304,11 +310,14 @@ func TestGenerateTransportServerConfigForUDP(t *testing.T) {
 			ProxyNextUpstreamTimeout: "0s",
 			ProxyNextUpstreamTries:   0,
 			ProxyTimeout:             "10m",
+			Snippets:                 []string{},
 		},
 	}
-
-	isPlus := true
-	result := generateTransportServerConfig(&transportServerEx, listenerPort, isPlus)
+	tsc := &transportServerConfigurator{
+		isPlus:         true,
+		enableSnippets: false,
+	}
+	result := generateTransportServerConfig(&transportServerEx, listenerPort, tsc)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("generateTransportServerConfig() returned \n%+v but expected \n%+v", result, expected)
 	}
