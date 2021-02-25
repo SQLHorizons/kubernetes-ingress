@@ -430,12 +430,19 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-      - name: Check Plus
-        if: matrix.type == 'plus'
-        run: echo "$PLUS"
-        env:
-          PLUS: -plus
       - name: Build Docker Image ${{ matrix.image }}
+        uses: docker/build-push-action@v2
+        with:
+          file: build/Dockerfile
+          context: '.'
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          target: local
+          tags: ${{ matrix.image }}:${{ matrix.tag }}
+          load: true
+          build-args: |
+            BUILD_OS=debian
+      - name: Build Plus Docker Image ${{ matrix.image }}
         uses: docker/build-push-action@v2
         with:
           file: build/Dockerfile
@@ -449,8 +456,9 @@ jobs:
             "nginx-repo.crt=${{ secrets.KIC_NGINX_CRT }}"
             "nginx-repo.key=${{ secrets.KIC_NGINX_KEY }}"
           build-args: |
-            BUILD_OS=debian${{ env.PLUS }}
-            PLUS=${{ env.PLUS }}
+            BUILD_OS=debian-plus
+            PLUS=-plus
+        if: matrix.type == 'plus'
       - name: Deploy Kubernetes
         id: k8s
         run: |
